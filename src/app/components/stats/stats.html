@@ -1,0 +1,25 @@
+<section class="stats">
+  <div class="stat-tile">
+    <span class="stat-icon"><app-icon name="box" [size]="22" /></span>
+    <div>
+      <p class="stat-number">{{ stats().totalItems }}</p>
+      <p class="stat-label">Catalog items</p>
+    </div>
+  </div>
+
+  <div class="stat-tile">
+    <span class="stat-icon"><app-icon name="stack" [size]="22" /></span>
+    <div>
+      <p class="stat-number">{{ stats().totalStock }}</p>
+      <p class="stat-label">Ready stock</p>
+    </div>
+  </div>
+
+  <div class="stat-tile">
+    <span class="stat-icon"><app-icon name="users" [size]="22" /></span>
+    <div>
+      <p class="stat-number">{{ stats().totalLeads }}</p>
+      <p class="stat-label">Customer leads</p>
+    </div>
+  </div>
+</section>

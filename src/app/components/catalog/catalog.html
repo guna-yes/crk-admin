@@ -1,0 +1,49 @@
+<section class="catalog" id="catalog">
+  <div class="catalog-toolbar">
+    <div class="search-box">
+      <app-icon name="search" [size]="18" />
+      <input
+        type="text"
+        placeholder="Search by name, category, or wood type"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="onSearch($event)"
+      />
+    </div>
+
+    <div class="category-chips">
+      @for (category of categories; track category) {
+        <button
+          type="button"
+          class="chip"
+          [class.active]="categoryFilter() === category"
+          (click)="onCategoryChange(category)"
+        >
+          {{ category }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="catalog-body">
+    <div class="product-grid">
+      @for (product of filteredProducts(); track product.id) {
+        <app-product-card
+          [product]="product"
+          [selected]="selectedProduct()?.id === product.id"
+          (pick)="onSelect($event)"
+        />
+      } @empty {
+        <p class="empty-state">No furniture matches your search yet.</p>
+      }
+    </div>
+
+    <div class="details-panel">
+      <app-product-details
+        [product]="selectedProduct()"
+        (enquire)="onEnquire($event)"
+        (edit)="editProduct.emit($event)"
+        (remove)="deleteProduct.emit($event)"
+      />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+<button
+  type="button"
+  class="product-card"
+  [class.is-selected]="selected()"
+  (click)="pick.emit(product().id)"
+>
+  <span class="swatch" [style.background]="product().color"></span>
+
+  <span class="card-body">
+    <span class="card-top">
+      <span class="name">{{ product().name }}</span>
+      @if (product().featured) {
+        <span class="featured-tag">Featured</span>
+      }
+    </span>
+    <span class="meta">
+      {{ product().category }}
+      @if (product().wood) {
+        &middot; {{ product().wood }}
+      }
+    </span>
+    @if (product().dimensions) {
+      <span class="dimensions">{{ product().dimensions }}</span>
+    }
+  </span>
+
+  <span class="card-price">{{ formatPrice(product().price) }}</span>
+</button>

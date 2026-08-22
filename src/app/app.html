@@ -1,0 +1,48 @@
+@if (isAuthenticated()) {
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <span class="brand">CRK Furnitures</span>
+      <div class="topbar-actions">
+        <button type="button" class="btn btn-accent btn-sm" (click)="openAddFurniture()">
+          <app-icon name="plus" [size]="16" />
+          Add Furniture
+        </button>
+        <button type="button" class="btn btn-ghost btn-sm" (click)="logout()">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <app-hero (viewCatalog)="scrollToCatalog()" (addFurniture)="openAddFurniture()" />
+    </div>
+
+    <div class="container">
+      <app-catalog
+        (enquire)="openLeadForm($event)"
+        (editProduct)="openEditFurniture($event)"
+        (deleteProduct)="deleteFurniture($event)"
+      />
+    </div>
+
+    <div class="container">
+      <app-stats />
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>CRK Furnitures &middot; Simple furniture catalog built for local shop sales.</p>
+    </div>
+  </footer>
+
+  @if (showFurnitureForm()) {
+    <app-furniture-form [editProduct]="editingProduct()" (closed)="closeFurnitureForm()" />
+  }
+
+  @if (showLeadForm()) {
+    <app-lead-form [preselectedProductId]="leadProductId()" (closed)="closeLeadForm()" />
+  }
+} @else {
+  <app-login />
+}

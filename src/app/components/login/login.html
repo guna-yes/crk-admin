@@ -1,0 +1,32 @@
+<div class="login-screen">
+  <div class="login-card">
+    <p class="brand">CRK Furnitures</p>
+    <h1>Admin Sign In</h1>
+    <p class="subtext">Sign in to manage the catalog and customer enquiries.</p>
+
+    @if (error()) {
+      <div class="message-banner error">{{ error() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field" [class.invalid]="f.username.invalid && f.username.touched">
+        <label for="username">Username</label>
+        <input id="username" type="text" formControlName="username" autocomplete="username" />
+      </div>
+
+      <div class="field" [class.invalid]="f.password.invalid && f.password.touched">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="submitting()">
+        {{ submitting() ? 'Signing in…' : 'Sign In' }}
+      </button>
+    </form>
+  </div>
+</div>

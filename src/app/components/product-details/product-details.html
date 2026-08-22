@@ -1,0 +1,73 @@
+@if (product(); as p) {
+  <div class="details">
+    @if (imageUrl(p); as photo) {
+      <img [src]="photo" alt="{{ p.name }}" class="details-photo" />
+    }
+
+    <div class="details-head">
+      <span class="swatch" [style.background]="p.color"></span>
+      <div class="details-head-text">
+        <h3>{{ p.name }}</h3>
+        <p class="category">
+          {{ p.category }}
+          @if (p.wood) {
+            &middot; {{ p.wood }}
+          }
+          @if (p.finish) {
+            &middot; {{ p.finish }}
+          }
+        </p>
+      </div>
+      <div class="details-head-actions">
+        <button type="button" class="icon-btn" (click)="edit.emit(p.id)" aria-label="Edit">
+          <app-icon name="edit" [size]="16" />
+        </button>
+        <button type="button" class="icon-btn" (click)="remove.emit(p.id)" aria-label="Delete">
+          <app-icon name="trash" [size]="16" />
+        </button>
+      </div>
+    </div>
+
+    @if (p.description) {
+      <p class="description">{{ p.description }}</p>
+    }
+
+    <div class="stat-row">
+      <div class="stat">
+        <app-icon name="stack" [size]="18" />
+        <div>
+          <p class="stat-value">{{ p.stock }}</p>
+          <p class="stat-label">In stock</p>
+        </div>
+      </div>
+      <div class="stat">
+        <app-icon name="truck" [size]="18" />
+        <div>
+          <p class="stat-value">{{ p.deliveryDays }} days</p>
+          <p class="stat-label">Delivery</p>
+        </div>
+      </div>
+      @if (p.dimensions) {
+        <div class="stat">
+          <app-icon name="box" [size]="18" />
+          <div>
+            <p class="stat-value">{{ p.dimensions }}</p>
+            <p class="stat-label">Dimensions</p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="details-footer">
+      <p class="price">{{ formatPrice(p.price) }}</p>
+      <button type="button" class="btn btn-accent" (click)="enquire.emit(p.id)">
+        <app-icon name="phone" [size]="16" />
+        Enquire
+      </button>
+    </div>
+  </div>
+} @else {
+  <div class="details empty">
+    <p>Select a product to see its details.</p>
+  </div>
+}

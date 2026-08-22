@@ -1,0 +1,45 @@
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">CRK Furnitures</p>
+    <h1>A simple, premium catalog for your furniture shop.</h1>
+    <p class="subtext">
+      Show every piece with clear prices, quick 3D previews, and an easy way to capture
+      customer interest &mdash; built for shop staff, not IT teams.
+    </p>
+
+    @if (selectedProduct(); as product) {
+      <div class="price-card">
+        <div class="price-card-top">
+          <span class="swatch" [style.background]="product.color"></span>
+          <div>
+            <p class="price-card-name">{{ product.name }}</p>
+            <p class="price-card-category">
+              {{ product.category }}
+              @if (product.wood) {
+                &middot; {{ product.wood }}
+              }
+            </p>
+          </div>
+        </div>
+        <p class="price-card-value">{{ formatPrice(product.price) }}</p>
+      </div>
+    }
+
+    <div class="hero-actions">
+      <button type="button" class="btn btn-primary" (click)="viewCatalog.emit()">
+        View Catalog
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="addFurniture.emit()">
+        <app-icon name="plus" [size]="18" />
+        Add Furniture
+      </button>
+    </div>
+  </div>
+
+  <div class="hero-preview">
+    <app-furniture-viewer
+      [category]="selectedProduct()?.category ?? 'Sofa'"
+      [color]="selectedProduct()?.color ?? '#8b5a2b'"
+    />
+  </div>
+</section>
