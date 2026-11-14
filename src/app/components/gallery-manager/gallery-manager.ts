@@ -14,16 +14,9 @@ import { Icon } from '../icon/icon';
 export class GalleryManager implements OnInit {
   private readonly api = inject(ApiService);
 
-  readonly tabs: { key: GallerySection; label: string; hint: string }[] = [
-    { key: 'story', label: 'Home story', hint: 'The big scrolling photos at the top of the website, in this order (Sofas, Dining, Beds, Made to order). Use 4 landscape photos.' },
-    { key: 'about', label: 'Who we are', hint: 'Workshop and craftsmen photos beside the “Who we are” text. The first 3 are shown.' },
-    { key: 'work', label: 'Our Work', hint: 'Finished pieces. They scroll sideways on the website. Add as many as you like.' },
-  ];
-
-  readonly section = signal<GallerySection>('story');
+  readonly section = signal<GallerySection>('work');
   readonly all = signal<GalleryItem[]>([]);
   readonly items = computed(() => this.all().filter((i) => i.section === this.section()));
-  readonly hint = computed(() => this.tabs.find((t) => t.key === this.section())?.hint ?? '');
   readonly busy = signal(false);
   readonly error = signal('');
 
