@@ -7,7 +7,8 @@
 .upload-btn.disabled { opacity: 0.6; pointer-events: none; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
-.card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--surface-muted); }
+.card img,
+.card video { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--surface-muted); }
 .body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 .body input, .body textarea { font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); resize: vertical; }
 .actions { display: flex; gap: 6px; align-items: center; }

@@ -1,13 +1,13 @@
 <section class="gallery">
   <div class="gallery-head">
     <div>
-      <h2>Our Work photos</h2>
+      <h2>Our Work photos &amp; videos</h2>
       <p>Photos shown in “Our Work” on the website. Use the arrows to reorder, or the bin to delete.</p>
     </div>
     <label class="btn btn-accent upload-btn" [class.disabled]="busy()">
       <app-icon name="plus" [size]="16" />
-      {{ busy() ? 'Uploading…' : 'Add photos' }}
-      <input type="file" accept="image/jpeg,image/png,image/webp" multiple [disabled]="busy()" (change)="onFiles($event)" />
+      {{ busy() ? 'Uploading… (videos take longer)' : 'Add photos / videos' }}
+      <input type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm" multiple [disabled]="busy()" (change)="onFiles($event)" />
     </label>
   </div>
 
@@ -18,7 +18,11 @@
   <div class="grid">
     @for (item of items(); track item.id; let i = $index; let last = $last) {
       <div class="card">
-        <img [src]="photo(item)" [alt]="item.title" />
+        @if (item.mediaType === 'video') {
+          <video [src]="video(item)" preload="metadata" muted playsinline controls></video>
+        } @else {
+          <img [src]="photo(item)" [alt]="item.title" />
+        }
         <div class="body">
           <input #t type="text" placeholder="Name (e.g. Teak sofa set)" [value]="item.title" maxlength="80" />
           <textarea #c rows="2" placeholder="Short caption" [value]="item.caption" maxlength="240"></textarea>

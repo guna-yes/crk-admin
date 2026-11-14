@@ -31,6 +31,10 @@ export class GalleryManager implements OnInit {
     return resolveImageUrl(item.imageUrl);
   }
 
+  video(item: GalleryItem): string | null {
+    return resolveImageUrl(item.videoUrl);
+  }
+
   onFiles(event: Event): void {
     const input = event.target as HTMLInputElement;
     const files = Array.from(input.files ?? []);
@@ -52,7 +56,7 @@ export class GalleryManager implements OnInit {
         this.upload(files);
       },
       error: () => {
-        this.error.set('Upload failed. Use a JPG, PNG or WEBP under 5 MB.');
+        this.error.set('Upload failed. Use a photo (JPG/PNG/WEBP, under 5 MB) or a video (MP4/MOV/WEBM, under 60 MB).');
         this.busy.set(false);
       },
     });
