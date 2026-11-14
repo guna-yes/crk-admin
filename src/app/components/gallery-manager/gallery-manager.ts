@@ -1,7 +1,7 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService, resolveImageUrl } from '../../services/api.service';
-import { GalleryItem } from '../../models/gallery.model';
+import { GalleryItem, GallerySection } from '../../models/gallery.model';
 import { Icon } from '../icon/icon';
 
 @Component({
@@ -14,13 +14,22 @@ import { Icon } from '../icon/icon';
 export class GalleryManager implements OnInit {
   private readonly api = inject(ApiService);
 
-  readonly items = signal<GalleryItem[]>([]);
+  readonly tabs: { key: GallerySection; label: string; hint: string }[] = [
+    { key: 'story', label: 'Home story', hint: 'The big scrolling photos at the top of the website, in this order (Sofas, Dining, Beds, Made to order). Use 4 landscape photos.' },
+    { key: 'about', label: 'Who we are', hint: 'Workshop and craftsmen photos beside the “Who we are” text. The first 3 are shown.' },
+    { key: 'work', label: 'Our Work', hint: 'Finished pieces. They scroll sideways on the website. Add as many as you like.' },
+  ];
+
+  readonly section = signal<GallerySection>('story');
+  readonly all = signal<GalleryItem[]>([]);
+  readonly items = computed(() => this.all().filter((i) => i.section === this.section()));
+  readonly hint = computed(() => this.tabs.find((t) => t.key === this.section())?.hint ?? '');
   readonly busy = signal(false);
   readonly error = signal('');
 
   ngOnInit(): void {
     this.api.getGallery().subscribe({
-      next: (items) => this.items.set(items),
+      next: (items) => this.all.set(items),
       error: () => this.error.set('Could not load the gallery.'),
     });
   }
@@ -44,9 +53,9 @@ export class GalleryManager implements OnInit {
     }
     this.busy.set(true);
     this.error.set('');
-    this.api.addGalleryItem(file, '', '').subscribe({
+    this.api.addGalleryItem(file, this.section()).subscribe({
       next: (item) => {
-        this.items.update((list) => [...list, item]);
+        this.all.update((list) => [...list, item]);
         this.upload(files);
       },
       error: () => {
@@ -59,7 +68,7 @@ export class GalleryManager implements OnInit {
   save(item: GalleryItem, title: string, caption: string): void {
     this.api.updateGalleryItem(item.id, { title, caption }).subscribe({
       next: (updated) =>
-        this.items.update((list) => list.map((i) => (i.id === updated.id ? updated : i))),
+        this.all.update((list) => list.map((i) => (i.id === updated.id ? updated : i))),
       error: () => this.error.set('Could not save changes.'),
     });
   }
@@ -69,7 +78,8 @@ export class GalleryManager implements OnInit {
     const target = index + delta;
     if (target < 0 || target >= list.length) return;
     [list[index], list[target]] = [list[target], list[index]];
-    this.items.set(list);
+    const others = this.all().filter((i) => i.section !== this.section());
+    this.all.set([...others, ...list.map((item, order) => ({ ...item, order }))]);
     this.api.reorderGallery(list.map((i) => i.id)).subscribe({
       error: () => this.error.set('Could not save the new order.'),
     });
@@ -78,7 +88,7 @@ export class GalleryManager implements OnInit {
   remove(item: GalleryItem): void {
     if (!confirm('Delete this photo?')) return;
     this.api.deleteGalleryItem(item.id).subscribe({
-      next: () => this.items.update((list) => list.filter((i) => i.id !== item.id)),
+      next: () => this.all.update((list) => list.filter((i) => i.id !== item.id)),
       error: () => this.error.set('Could not delete the photo.'),
     });
   }

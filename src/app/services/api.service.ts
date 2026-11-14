@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NewProduct, Product, ProductPatch } from '../models/product.model';
 import { Lead, NewLead } from '../models/lead.model';
-import { GalleryItem } from '../models/gallery.model';
+import { GalleryItem, GallerySection } from '../models/gallery.model';
 
 export const API_ORIGIN = 'https://crk-furnitures-api.onrender.com';
 const BASE_URL = `${API_ORIGIN}/api`;
@@ -62,11 +62,10 @@ export class ApiService {
     return this.http.get<GalleryItem[]>(`${BASE_URL}/gallery`);
   }
 
-  addGalleryItem(file: File, title: string, caption: string): Observable<GalleryItem> {
+  addGalleryItem(file: File, section: GallerySection): Observable<GalleryItem> {
     const formData = new FormData();
     formData.append('image', file);
-    formData.append('title', title);
-    formData.append('caption', caption);
+    formData.append('section', section);
     return this.http.post<GalleryItem>(`${BASE_URL}/gallery`, formData);
   }
 

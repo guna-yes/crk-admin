@@ -1,14 +1,22 @@
 <section class="gallery">
   <div class="gallery-head">
     <div>
-      <h2>Our Work gallery</h2>
-      <p>Photos shown in the “Our Work” section of the website.</p>
+      <h2>Website photos</h2>
+      <p>{{ hint() }}</p>
     </div>
     <label class="btn btn-accent upload-btn" [class.disabled]="busy()">
       <app-icon name="plus" [size]="16" />
       {{ busy() ? 'Uploading…' : 'Add photos' }}
       <input type="file" accept="image/jpeg,image/png,image/webp" multiple [disabled]="busy()" (change)="onFiles($event)" />
     </label>
+  </div>
+
+  <div class="tabs">
+    @for (tab of tabs; track tab.key) {
+      <button type="button" class="tab" [class.active]="section() === tab.key" (click)="section.set(tab.key)">
+        {{ tab.label }}
+      </button>
+    }
   </div>
 
   @if (error()) {
@@ -33,7 +41,7 @@
         </div>
       </div>
     } @empty {
-      <p class="empty">No photos yet. Tap “Add photos” to upload your first one.</p>
+      <p class="empty">No photos here yet. Tap “Add photos” to upload your first one.</p>
     }
   </div>
 </section>
