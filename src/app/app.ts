@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Hero } from './components/hero/hero';
 import { Catalog } from './components/catalog/catalog';
+import { GalleryManager } from './components/gallery-manager/gallery-manager';
 import { Stats } from './components/stats/stats';
 import { FurnitureForm } from './components/furniture-form/furniture-form';
 import { LeadForm } from './components/lead-form/lead-form';
@@ -12,7 +13,7 @@ import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [Hero, Catalog, Stats, FurnitureForm, LeadForm, Login, Icon],
+  imports: [Hero, Catalog, GalleryManager, Stats, FurnitureForm, LeadForm, Login, Icon],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

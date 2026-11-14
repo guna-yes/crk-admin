@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NewProduct, Product, ProductPatch } from '../models/product.model';
 import { Lead, NewLead } from '../models/lead.model';
+import { GalleryItem } from '../models/gallery.model';
 
 export const API_ORIGIN = 'https://crk-furnitures-api.onrender.com';
 const BASE_URL = `${API_ORIGIN}/api`;
@@ -55,5 +56,29 @@ export class ApiService {
 
   createLead(lead: NewLead): Observable<Lead> {
     return this.http.post<Lead>(`${BASE_URL}/leads`, lead);
+  }
+
+  getGallery(): Observable<GalleryItem[]> {
+    return this.http.get<GalleryItem[]>(`${BASE_URL}/gallery`);
+  }
+
+  addGalleryItem(file: File, title: string, caption: string): Observable<GalleryItem> {
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('title', title);
+    formData.append('caption', caption);
+    return this.http.post<GalleryItem>(`${BASE_URL}/gallery`, formData);
+  }
+
+  updateGalleryItem(id: string, patch: { title: string; caption: string }): Observable<GalleryItem> {
+    return this.http.patch<GalleryItem>(`${BASE_URL}/gallery/${id}`, patch);
+  }
+
+  deleteGalleryItem(id: string): Observable<{ success: true }> {
+    return this.http.delete<{ success: true }>(`${BASE_URL}/gallery/${id}`);
+  }
+
+  reorderGallery(ids: string[]): Observable<GalleryItem[]> {
+    return this.http.post<GalleryItem[]>(`${BASE_URL}/gallery/reorder`, { ids });
   }
 }

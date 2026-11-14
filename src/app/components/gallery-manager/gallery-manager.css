@@ -1,0 +1,16 @@
+.gallery { padding: 32px 0; }
+.gallery-head { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.gallery-head h2 { margin: 0 0 4px; font-size: 22px; }
+.gallery-head p { margin: 0; color: var(--text-muted); font-size: 14px; }
+.upload-btn { cursor: pointer; position: relative; }
+.upload-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; font-size: 0; }
+.upload-btn.disabled { opacity: 0.6; pointer-events: none; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--surface-muted); }
+.body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.body input, .body textarea { font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); resize: vertical; }
+.actions { display: flex; gap: 6px; align-items: center; }
+.actions .danger { margin-left: auto; color: var(--danger); }
+.error { color: var(--danger); background: var(--danger-soft); padding: 10px 14px; border-radius: var(--radius-sm); font-size: 14px; }
+.empty { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px 0; }
