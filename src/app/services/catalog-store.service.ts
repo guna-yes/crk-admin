@@ -137,7 +137,7 @@ export class CatalogStore {
           this._selectedId.set(products[0].id);
         }
       },
-      error: () => console.warn('CRK Furnitures API not reachable yet - using local seed data.'),
+      error: () => console.warn('CRK Homes API not reachable yet - using local seed data.'),
     });
 
     this.api.getLeads().subscribe({
